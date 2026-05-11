@@ -4,6 +4,7 @@ import dotenv from "dotenv";
 import connectDB from "./config/db.js";
 import authRoutes from "./routes/authRoutes.js";
 import authMiddleware from "./middleware/authMiddleware.js";
+import transactionRoutes from "./routes/transactionRoutes.js";
 dotenv.config();//it loads environment variables from a .env file into process.env, allowing you to access them in your application.
 
 connectDB();
@@ -14,7 +15,7 @@ app.use(cors());// CORS = Cross-Origin Resource Sharing, it allows your backend 
 app.use(express.json());
 
 app.use("/api/auth", authRoutes);
-
+app.use("/api/transactions", transactionRoutes);
 app.get("/", (req, res) => {
   res.send("Backend Running");
 });
