@@ -1,5 +1,5 @@
 import Transaction from "../models/Transaction.js";
-
+import { io, onlineUsers } from "../server.js";
 
 
 // CREATE UDHAR REQUEST
@@ -15,6 +15,20 @@ export const createTransaction = async (req, res) => {
       amount,
     });
 
+
+    // REALTIME EVENT
+    const customerSocketId = onlineUsers[customer];
+
+    if (customerSocketId) {
+
+      io.to(customerSocketId).emit("new_udhar_request", {
+        message: "New Udhar Request",
+        transaction,
+      });
+
+    }
+
+
     res.status(201).json({
       message: "Udhar request created",
       transaction,
@@ -26,9 +40,6 @@ export const createTransaction = async (req, res) => {
     });
   }
 };
-
-
-
 
 // GET CUSTOMER PENDING REQUESTS
 export const getPendingRequests = async (req, res) => {
