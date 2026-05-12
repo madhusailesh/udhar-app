@@ -5,6 +5,7 @@ import connectDB from "./config/db.js";
 import authRoutes from "./routes/authRoutes.js";
 import authMiddleware from "./middleware/authMiddleware.js";
 import transactionRoutes from "./routes/transactionRoutes.js";
+
 dotenv.config();//it loads environment variables from a .env file into process.env, allowing you to access them in your application.
 
 connectDB();
