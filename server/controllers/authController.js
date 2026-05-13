@@ -90,3 +90,32 @@ export const login = async (req, res) => {
     });
   }
 };
+
+
+
+
+
+// SEARCH CUSTOMERS
+export const searchCustomers = async (req, res) => {
+  try {
+
+    const search = req.query.search;
+
+    const users = await User.find({
+      role: "customer",
+      email: {
+        $regex: search,
+        $options: "i",
+      },
+    }).select("_id name email");
+
+    res.status(200).json(users);
+
+  } catch (error) {
+
+    res.status(500).json({
+      message: error.message,
+    });
+
+  }
+};

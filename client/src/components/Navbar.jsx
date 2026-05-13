@@ -1,3 +1,4 @@
+import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 
 function Navbar() {
@@ -9,6 +10,35 @@ function Navbar() {
   );
 
 
+  const [darkMode, setDarkMode] = useState(
+    localStorage.getItem("theme") === "dark"
+  );
+
+
+
+  // APPLY THEME
+  useEffect(() => {
+
+    if (darkMode) {
+
+      document.documentElement.classList.add("dark");
+
+      localStorage.setItem("theme", "dark");
+
+    } else {
+
+      document.documentElement.classList.remove("dark");
+
+      localStorage.setItem("theme", "light");
+
+    }
+
+  }, [darkMode]);
+
+
+
+
+  // LOGOUT
   const handleLogout = () => {
 
     localStorage.removeItem("token");
@@ -20,8 +50,10 @@ function Navbar() {
   };
 
 
+
+
   return (
-    <div className="bg-gray-800 text-white p-4 flex justify-between items-center rounded-xl mb-6">
+    <div className="bg-gray-800 dark:bg-gray-950 text-white p-4 flex justify-between items-center rounded-xl mb-6">
 
       <div>
 
@@ -32,7 +64,21 @@ function Navbar() {
       </div>
 
 
+
       <div className="flex items-center gap-4">
+
+        <button
+          onClick={() => setDarkMode(!darkMode)}
+          className="bg-gray-700 px-4 py-2 rounded-lg hover:bg-gray-600"
+        >
+          {
+            darkMode
+              ? "☀ Light"
+              : "🌙 Dark"
+          }
+        </button>
+
+
 
         <div>
 
@@ -45,6 +91,7 @@ function Navbar() {
           </p>
 
         </div>
+
 
 
         <button

@@ -23,3 +23,17 @@ export const loginUser = async (userData) => {
 
   return response.data;
 };
+
+
+
+
+
+// SEARCH CUSTOMERS
+export const searchCustomers = async (search) => {
+
+  const response = await axios.get(
+    `${API}/search-customers?search=${search}`
+  );
+
+  return response.data;
+};

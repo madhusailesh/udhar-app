@@ -5,7 +5,9 @@ import socket from "../socket/socket";
 import {
   getCustomerLedgers,
 } from "../services/ledgerService";
+
 import Navbar from "../components/Navbar";
+
 function CustomerDashboard() {
 
   const user = JSON.parse(
@@ -13,6 +15,7 @@ function CustomerDashboard() {
   );
 
   const [ledgers, setLedgers] = useState([]);
+
 
 
 
@@ -37,15 +40,11 @@ function CustomerDashboard() {
 
   useEffect(() => {
 
-    // REGISTER SOCKET
     socket.emit("registerUser", user._id);
 
-
-    // INITIAL FETCH
     fetchLedgers();
 
 
-    // REALTIME UPDATE
     socket.on("new_udhar_request", () => {
 
       fetchLedgers();
@@ -62,87 +61,104 @@ function CustomerDashboard() {
 
 
 
- return (<><Navbar />
-  <div className="min-h-screen bg-gray-900 text-white p-6">
+  return (
+    <>
 
-    <h1 className="text-4xl font-bold mb-8">
-      Customer Dashboard
-    </h1>
+      <Navbar />
 
+      <div className="min-h-screen bg-gray-100 dark:bg-gray-900 text-black dark:text-white p-6">
 
-    <div className="grid md:grid-cols-2 gap-6">
-
-      {
-        ledgers.map((ledger) => (
-
-          <div
-            key={ledger._id}
-            className="bg-gray-800 p-6 rounded-xl"
-          >
-
-            <h2 className="text-2xl font-semibold mb-2">
-              {ledger.shopkeeper?.name}
-            </h2>
-
-            <p className="text-gray-400 mb-2">
-              {ledger.shopkeeper?.email}
-            </p>
-
-            <p className="text-xl mb-4">
-              Pending:
-              {" "}
-              <span className="text-red-400">
-                ₹{ledger.totalBalance}
-              </span>
-            </p>
+        <h1 className="text-4xl font-bold mb-8">
+          Customer Dashboard
+        </h1>
 
 
-            <div className="space-y-3">
+        <div className="grid md:grid-cols-2 gap-6">
 
-              {
-                ledger.entries.map((entry, index) => (
+          {
+            ledgers.map((ledger) => (
 
-                  <div
-                    key={index}
-                    className="bg-gray-700 p-3 rounded-lg"
-                  >
+              <div
+                key={ledger._id}
+                className="bg-white dark:bg-gray-800 p-6 rounded-xl shadow-lg"
+              >
 
-                    <p>
-                      Type:
-                      {" "}
-                      <span className={
-                        entry.type === "credit"
-                          ? "text-red-400"
-                          : "text-green-400"
-                      }>
-                        {entry.type}
-                      </span>
-                    </p>
+                <h2 className="text-2xl font-semibold mb-2">
+                  {ledger.shopkeeper?.name}
+                </h2>
 
-                    <p>
-                      ₹{entry.amount}
-                    </p>
+                <p className="text-gray-500 dark:text-gray-400 mb-2">
+                  {ledger.shopkeeper?.email}
+                </p>
 
-                    <p className="text-gray-300">
-                      {entry.note}
-                    </p>
+                <p className="text-xl mb-4">
+                  Pending:
+                  {" "}
+                  <span className="text-red-500">
+                    ₹{ledger.totalBalance}
+                  </span>
+                </p>
 
-                  </div>
 
-                ))
-              }
 
-            </div>
+                <div className="space-y-3">
 
-          </div>
+                  {
+                    ledger.entries.map((entry, index) => (
 
-        ))
-      }
+                      <div
+                        key={index}
+                        className="bg-gray-100 dark:bg-gray-700 p-3 rounded-lg"
+                      >
 
-    </div>
+                        <p>
+                          Type:
+                          {" "}
+                          <span
+                            className={
+                              entry.type === "credit"
+                                ? "text-red-500"
+                                : "text-green-500"
+                            }
+                          >
+                            {entry.type}
+                          </span>
+                        </p>
 
-  </div></>
-);
+                        <p>
+                          ₹{entry.amount}
+                        </p>
+
+                        <p className="text-gray-600 dark:text-gray-300">
+                          {entry.note}
+                        </p>
+
+                        <p className="text-sm text-gray-500 mt-2">
+                          {
+                            new Date(
+                              entry.createdAt
+                            ).toLocaleString()
+                          }
+                        </p>
+
+                      </div>
+
+                    ))
+                  }
+
+                </div>
+
+              </div>
+
+            ))
+          }
+
+        </div>
+
+      </div>
+
+    </>
+  );
 }
 
 export default CustomerDashboard;
