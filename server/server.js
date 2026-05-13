@@ -5,7 +5,7 @@ import connectDB from "./config/db.js";
 import authRoutes from "./routes/authRoutes.js";
 import authMiddleware from "./middleware/authMiddleware.js";
 import transactionRoutes from "./routes/transactionRoutes.js";
-
+import pendingRequestRoutes from "./routes/pendingRequestRoutes.js";
 import { createServer } from "http";
 import { Server } from "socket.io";
 import ledgerRoutes from "./routes/ledgerRoutes.js";
@@ -21,6 +21,10 @@ app.use(express.json());
 app.use("/api/auth", authRoutes);
 app.use("/api/transactions", transactionRoutes);
 app.use("/api/ledger", ledgerRoutes);
+app.use(
+  "/api/pending-requests",
+  pendingRequestRoutes
+);
 app.get("/", (req, res) => {
   res.send("Backend Running");
 });
