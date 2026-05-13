@@ -3,26 +3,27 @@ import { useEffect, useState } from "react";
 import socket from "../socket/socket";
 
 import {
-  getPendingRequests,
-  approveRequest,
-  rejectRequest,
-} from "../services/transactionService";
+  getCustomerLedgers,
+} from "../services/ledgerService";
 
 function CustomerDashboard() {
 
-  const user = JSON.parse(localStorage.getItem("user"));
+  const user = JSON.parse(
+    localStorage.getItem("user")
+  );
 
-  const [requests, setRequests] = useState([]);
+  const [ledgers, setLedgers] = useState([]);
 
 
-  // FETCH REQUESTS
-  const fetchRequests = async () => {
+
+  // FETCH LEDGERS
+  const fetchLedgers = async () => {
 
     try {
 
-      const data = await getPendingRequests();
+      const data = await getCustomerLedgers();
 
-      setRequests(data);
+      setLedgers(data);
 
     } catch (error) {
 
@@ -32,24 +33,22 @@ function CustomerDashboard() {
   };
 
 
+
+
   useEffect(() => {
 
-    // REGISTER USER
+    // REGISTER SOCKET
     socket.emit("registerUser", user._id);
 
 
     // INITIAL FETCH
-    fetchRequests();
+    fetchLedgers();
 
 
-    // REALTIME LISTENER
-    socket.on("new_udhar_request", (data) => {
+    // REALTIME UPDATE
+    socket.on("new_udhar_request", () => {
 
-      console.log(data);
-
-      alert(`New Request ₹${data.transaction.amount}`);
-
-      fetchRequests();
+      fetchLedgers();
 
     });
 
@@ -63,99 +62,77 @@ function CustomerDashboard() {
 
 
 
-  // APPROVE
-  const handleApprove = async (id) => {
-
-    try {
-
-      await approveRequest(id);
-
-      alert("Approved");
-
-      fetchRequests();
-
-    } catch (error) {
-
-      console.log(error);
-
-    }
-  };
-
-
-
-
-  // REJECT
-  const handleReject = async (id) => {
-
-    try {
-
-      await rejectRequest(id);
-
-      alert("Rejected");
-
-      fetchRequests();
-
-    } catch (error) {
-
-      console.log(error);
-
-    }
-  };
-
-
-
   return (
     <div>
 
       <h1>Customer Dashboard</h1>
 
-      <h2>Pending Requests</h2>
-
 
       {
-        requests.map((req) => (
+        ledgers.map((ledger) => (
 
           <div
-            key={req._id}
+            key={ledger._id}
             style={{
               border: "1px solid white",
               padding: "10px",
-              marginBottom: "10px",
+              marginBottom: "20px",
             }}
           >
 
+            <h2>
+              {ledger.shopkeeper?.name}
+            </h2>
+
             <p>
-              Shopkeeper:
+              Shop Email:
               {" "}
-              {req.shopkeeper?.name}
+              {ledger.shopkeeper?.email}
             </p>
 
             <p>
-              Item:
+              Total Pending:
               {" "}
-              {req.itemName}
-            </p>
-
-            <p>
-              Amount:
-              {" "}
-              ₹{req.amount}
+              ₹{ledger.totalBalance}
             </p>
 
 
-            <button
-              onClick={() => handleApprove(req._id)}
-            >
-              Approve
-            </button>
+            <h3>History</h3>
 
-            {" "}
 
-            <button
-              onClick={() => handleReject(req._id)}
-            >
-              Reject
-            </button>
+            {
+              ledger.entries.map((entry, index) => (
+
+                <div
+                  key={index}
+                  style={{
+                    marginBottom: "10px",
+                    paddingLeft: "10px",
+                  }}
+                >
+
+                  <p>
+                    Type:
+                    {" "}
+                    {entry.type}
+                  </p>
+
+                  <p>
+                    Amount:
+                    {" "}
+                    ₹{entry.amount}
+                  </p>
+
+                  <p>
+                    Note:
+                    {" "}
+                    {entry.note}
+                  </p>
+
+                </div>
+
+              ))
+            }
 
           </div>
 

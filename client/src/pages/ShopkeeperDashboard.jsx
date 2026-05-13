@@ -1,29 +1,30 @@
 import { useEffect, useState } from "react";
 
 import {
-  createTransaction,
-  getShopkeeperTransactions,
-} from "../services/transactionService";
+  addLedgerEntry,
+  getShopkeeperLedgers,
+} from "../services/ledgerService";
 
 function ShopkeeperDashboard() {
 
-  const [transactions, setTransactions] = useState([]);
+  const [ledgers, setLedgers] = useState([]);
 
   const [formData, setFormData] = useState({
     customer: "",
-    itemName: "",
+    type: "credit",
     amount: "",
+    note: "",
   });
 
 
-  // FETCH TRANSACTIONS
-  const fetchTransactions = async () => {
+  // FETCH LEDGERS
+  const fetchLedgers = async () => {
 
     try {
 
-      const data = await getShopkeeperTransactions();
+      const data = await getShopkeeperLedgers();
 
-      setTransactions(data);
+      setLedgers(data);
 
     } catch (error) {
 
@@ -35,12 +36,14 @@ function ShopkeeperDashboard() {
 
   useEffect(() => {
 
-    fetchTransactions();
+    fetchLedgers();
 
   }, []);
 
 
 
+
+  // HANDLE CHANGE
   const handleChange = (e) => {
 
     setFormData({
@@ -52,17 +55,19 @@ function ShopkeeperDashboard() {
 
 
 
+
+  // SUBMIT
   const handleSubmit = async (e) => {
 
     e.preventDefault();
 
     try {
 
-      await createTransaction(formData);
+      await addLedgerEntry(formData);
 
-      alert("Request Sent");
+      alert("Entry Added");
 
-      fetchTransactions();
+      fetchLedgers();
 
     } catch (error) {
 
@@ -75,10 +80,13 @@ function ShopkeeperDashboard() {
 
 
 
+
   return (
     <div>
 
-      <h1>Shopkeeper Dashboard</h1>
+      <h1 className="text-4xl font-bold text-blue-500">
+  Shopkeeper Dashboard
+</h1>
 
 
       <form onSubmit={handleSubmit}>
@@ -92,14 +100,24 @@ function ShopkeeperDashboard() {
 
         <br /><br />
 
-        <input
-          type="text"
-          name="itemName"
-          placeholder="Item Name"
+
+        <select
+          name="type"
           onChange={handleChange}
-        />
+        >
+
+          <option value="credit">
+            Udhar Add
+          </option>
+
+          <option value="debit">
+            Payment Received
+          </option>
+
+        </select>
 
         <br /><br />
+
 
         <input
           type="number"
@@ -110,8 +128,19 @@ function ShopkeeperDashboard() {
 
         <br /><br />
 
+
+        <input
+          type="text"
+          name="note"
+          placeholder="Note"
+          onChange={handleChange}
+        />
+
+        <br /><br />
+
+
         <button type="submit">
-          Send Request
+          Add Entry
         </button>
 
       </form>
@@ -120,44 +149,74 @@ function ShopkeeperDashboard() {
       <hr />
 
 
-      <h2>Transactions</h2>
+      <h2>Customer Ledgers</h2>
 
 
       {
-        transactions.map((tx) => (
+        ledgers.map((ledger) => (
 
           <div
-            key={tx._id}
+            key={ledger._id}
             style={{
               border: "1px solid white",
               padding: "10px",
-              marginBottom: "10px",
+              marginBottom: "20px",
             }}
           >
 
+            <h3>
+              {ledger.customer?.name}
+            </h3>
+
             <p>
-              Customer:
+              Email:
               {" "}
-              {tx.customer?.name}
+              {ledger.customer?.email}
             </p>
 
             <p>
-              Item:
+              Total Pending:
               {" "}
-              {tx.itemName}
+              ₹{ledger.totalBalance}
             </p>
 
-            <p>
-              Amount:
-              {" "}
-              ₹{tx.amount}
-            </p>
 
-            <p>
-              Status:
-              {" "}
-              {tx.status}
-            </p>
+            <h4>Entries</h4>
+
+
+            {
+              ledger.entries.map((entry, index) => (
+
+                <div
+                  key={index}
+                  style={{
+                    marginBottom: "10px",
+                    paddingLeft: "10px",
+                  }}
+                >
+
+                  <p>
+                    Type:
+                    {" "}
+                    {entry.type}
+                  </p>
+
+                  <p>
+                    Amount:
+                    {" "}
+                    ₹{entry.amount}
+                  </p>
+
+                  <p>
+                    Note:
+                    {" "}
+                    {entry.note}
+                  </p>
+
+                </div>
+
+              ))
+            }
 
           </div>
 
