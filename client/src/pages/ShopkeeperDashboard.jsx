@@ -82,141 +82,143 @@ function ShopkeeperDashboard() {
 
 
   return (
-    <div>
+  <div className="min-h-screen bg-gray-900 text-white p-6">
 
-      <h1 className="text-4xl font-bold text-blue-500">
-  Shopkeeper Dashboard
-</h1>
-
-
-      <form onSubmit={handleSubmit}>
-
-        <input
-          type="text"
-          name="customer"
-          placeholder="Customer ID"
-          onChange={handleChange}
-        />
-
-        <br /><br />
+    <h1 className="text-4xl font-bold mb-8">
+      Shopkeeper Dashboard
+    </h1>
 
 
-        <select
-          name="type"
-          onChange={handleChange}
-        >
+    {/* FORM */}
+    <form
+      onSubmit={handleSubmit}
+      className="bg-gray-800 p-6 rounded-xl mb-10"
+    >
 
-          <option value="credit">
-            Udhar Add
-          </option>
-
-          <option value="debit">
-            Payment Received
-          </option>
-
-        </select>
-
-        <br /><br />
+      <h2 className="text-2xl mb-6">
+        Add Ledger Entry
+      </h2>
 
 
-        <input
-          type="number"
-          name="amount"
-          placeholder="Amount"
-          onChange={handleChange}
-        />
-
-        <br /><br />
-
-
-        <input
-          type="text"
-          name="note"
-          placeholder="Note"
-          onChange={handleChange}
-        />
-
-        <br /><br />
+      <input
+        type="text"
+        name="customer"
+        placeholder="Customer ID"
+        onChange={handleChange}
+        className="w-full p-3 rounded-lg bg-gray-700 mb-4"
+      />
 
 
-        <button type="submit">
-          Add Entry
-        </button>
+      <select
+        name="type"
+        onChange={handleChange}
+        className="w-full p-3 rounded-lg bg-gray-700 mb-4"
+      >
 
-      </form>
+        <option value="credit">
+          Udhar Add
+        </option>
+
+        <option value="debit">
+          Payment Received
+        </option>
+
+      </select>
 
 
-      <hr />
+      <input
+        type="number"
+        name="amount"
+        placeholder="Amount"
+        onChange={handleChange}
+        className="w-full p-3 rounded-lg bg-gray-700 mb-4"
+      />
 
 
-      <h2>Customer Ledgers</h2>
+      <input
+        type="text"
+        name="note"
+        placeholder="Note"
+        onChange={handleChange}
+        className="w-full p-3 rounded-lg bg-gray-700 mb-4"
+      />
 
+
+      <button
+        type="submit"
+        className="bg-blue-500 px-6 py-3 rounded-lg hover:bg-blue-600"
+      >
+        Add Entry
+      </button>
+
+    </form>
+
+
+
+    {/* LEDGERS */}
+    <div className="grid md:grid-cols-2 gap-6">
 
       {
         ledgers.map((ledger) => (
 
           <div
             key={ledger._id}
-            style={{
-              border: "1px solid white",
-              padding: "10px",
-              marginBottom: "20px",
-            }}
+            className="bg-gray-800 p-6 rounded-xl"
           >
 
-            <h3>
+            <h2 className="text-2xl font-semibold mb-2">
               {ledger.customer?.name}
-            </h3>
+            </h2>
 
-            <p>
-              Email:
-              {" "}
+            <p className="text-gray-400 mb-2">
               {ledger.customer?.email}
             </p>
 
-            <p>
-              Total Pending:
+            <p className="text-xl mb-4">
+              Pending:
               {" "}
-              ₹{ledger.totalBalance}
+              <span className="text-red-400">
+                ₹{ledger.totalBalance}
+              </span>
             </p>
 
 
-            <h4>Entries</h4>
+            <div className="space-y-3">
 
+              {
+                ledger.entries.map((entry, index) => (
 
-            {
-              ledger.entries.map((entry, index) => (
+                  <div
+                    key={index}
+                    className="bg-gray-700 p-3 rounded-lg"
+                  >
 
-                <div
-                  key={index}
-                  style={{
-                    marginBottom: "10px",
-                    paddingLeft: "10px",
-                  }}
-                >
+                    <p>
+                      Type:
+                      {" "}
+                      <span className={
+                        entry.type === "credit"
+                          ? "text-red-400"
+                          : "text-green-400"
+                      }>
+                        {entry.type}
+                      </span>
+                    </p>
 
-                  <p>
-                    Type:
-                    {" "}
-                    {entry.type}
-                  </p>
+                    <p>
+                      ₹{entry.amount}
+                    </p>
 
-                  <p>
-                    Amount:
-                    {" "}
-                    ₹{entry.amount}
-                  </p>
+                    <p className="text-gray-300">
+                      {entry.note}
+                    </p>
 
-                  <p>
-                    Note:
-                    {" "}
-                    {entry.note}
-                  </p>
+                  </div>
 
-                </div>
+                ))
+              }
 
-              ))
-            }
+            </div>
 
           </div>
 
@@ -224,7 +226,9 @@ function ShopkeeperDashboard() {
       }
 
     </div>
-  );
+
+  </div>
+);
 }
 
 export default ShopkeeperDashboard;

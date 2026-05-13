@@ -62,77 +62,77 @@ function CustomerDashboard() {
 
 
 
-  return (
-    <div>
+ return (
+  <div className="min-h-screen bg-gray-900 text-white p-6">
 
-      <h1>Customer Dashboard</h1>
+    <h1 className="text-4xl font-bold mb-8">
+      Customer Dashboard
+    </h1>
 
+
+    <div className="grid md:grid-cols-2 gap-6">
 
       {
         ledgers.map((ledger) => (
 
           <div
             key={ledger._id}
-            style={{
-              border: "1px solid white",
-              padding: "10px",
-              marginBottom: "20px",
-            }}
+            className="bg-gray-800 p-6 rounded-xl"
           >
 
-            <h2>
+            <h2 className="text-2xl font-semibold mb-2">
               {ledger.shopkeeper?.name}
             </h2>
 
-            <p>
-              Shop Email:
-              {" "}
+            <p className="text-gray-400 mb-2">
               {ledger.shopkeeper?.email}
             </p>
 
-            <p>
-              Total Pending:
+            <p className="text-xl mb-4">
+              Pending:
               {" "}
-              ₹{ledger.totalBalance}
+              <span className="text-red-400">
+                ₹{ledger.totalBalance}
+              </span>
             </p>
 
 
-            <h3>History</h3>
+            <div className="space-y-3">
 
+              {
+                ledger.entries.map((entry, index) => (
 
-            {
-              ledger.entries.map((entry, index) => (
+                  <div
+                    key={index}
+                    className="bg-gray-700 p-3 rounded-lg"
+                  >
 
-                <div
-                  key={index}
-                  style={{
-                    marginBottom: "10px",
-                    paddingLeft: "10px",
-                  }}
-                >
+                    <p>
+                      Type:
+                      {" "}
+                      <span className={
+                        entry.type === "credit"
+                          ? "text-red-400"
+                          : "text-green-400"
+                      }>
+                        {entry.type}
+                      </span>
+                    </p>
 
-                  <p>
-                    Type:
-                    {" "}
-                    {entry.type}
-                  </p>
+                    <p>
+                      ₹{entry.amount}
+                    </p>
 
-                  <p>
-                    Amount:
-                    {" "}
-                    ₹{entry.amount}
-                  </p>
+                    <p className="text-gray-300">
+                      {entry.note}
+                    </p>
 
-                  <p>
-                    Note:
-                    {" "}
-                    {entry.note}
-                  </p>
+                  </div>
 
-                </div>
+                ))
+              }
 
-              ))
-            }
+            </div>
 
           </div>
 
@@ -140,7 +140,9 @@ function CustomerDashboard() {
       }
 
     </div>
-  );
+
+  </div>
+);
 }
 
 export default CustomerDashboard;
