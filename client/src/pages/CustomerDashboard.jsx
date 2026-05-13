@@ -5,7 +5,7 @@ import socket from "../socket/socket";
 import {
   getCustomerLedgers,
 } from "../services/ledgerService";
-
+import Navbar from "../components/Navbar";
 function CustomerDashboard() {
 
   const user = JSON.parse(
@@ -62,7 +62,7 @@ function CustomerDashboard() {
 
 
 
- return (
+ return (<><Navbar />
   <div className="min-h-screen bg-gray-900 text-white p-6">
 
     <h1 className="text-4xl font-bold mb-8">
@@ -141,7 +141,7 @@ function CustomerDashboard() {
 
     </div>
 
-  </div>
+  </div></>
 );
 }
 

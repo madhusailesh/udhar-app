@@ -4,7 +4,7 @@ import {
   addLedgerEntry,
   getShopkeeperLedgers,
 } from "../services/ledgerService";
-
+import Navbar from "../components/Navbar";
 function ShopkeeperDashboard() {
 
   const [ledgers, setLedgers] = useState([]);
@@ -81,7 +81,8 @@ function ShopkeeperDashboard() {
 
 
 
-  return (
+  return (<>
+    <Navbar />
   <div className="min-h-screen bg-gray-900 text-white p-6">
 
     <h1 className="text-4xl font-bold mb-8">
@@ -227,7 +228,7 @@ function ShopkeeperDashboard() {
 
     </div>
 
-  </div>
+  </div></>
 );
 }
 
