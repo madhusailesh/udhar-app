@@ -120,3 +120,23 @@ export const rejectTransaction = async (req, res) => {
     });
   }
 };
+
+
+// SHOPKEEPER TRANSACTIONS
+export const getShopkeeperTransactions = async (req, res) => {
+  try {
+
+    const transactions = await Transaction.find({
+      shopkeeper: req.user.id,
+    }).populate("customer", "name email");
+
+    res.status(200).json(transactions);
+
+  } catch (error) {
+
+    res.status(500).json({
+      message: error.message,
+    });
+
+  }
+};

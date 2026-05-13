@@ -8,7 +8,7 @@ import transactionRoutes from "./routes/transactionRoutes.js";
 
 import { createServer } from "http";
 import { Server } from "socket.io";
-
+import ledgerRoutes from "./routes/ledgerRoutes.js";
 dotenv.config();
 
 connectDB();
@@ -20,7 +20,7 @@ app.use(express.json());
 
 app.use("/api/auth", authRoutes);
 app.use("/api/transactions", transactionRoutes);
-
+app.use("/api/ledger", ledgerRoutes);
 app.get("/", (req, res) => {
   res.send("Backend Running");
 });

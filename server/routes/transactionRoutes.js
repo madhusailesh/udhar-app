@@ -16,6 +16,7 @@ import {
   getPendingRequests,
   approveTransaction,
   rejectTransaction,
+  getShopkeeperTransactions,
 } from "../controllers/transactionController.js";
 
 import authMiddleware from "../middleware/authMiddleware.js";
@@ -29,5 +30,12 @@ router.get("/pending", authMiddleware, getPendingRequests);
 router.put("/approve/:id", authMiddleware, approveTransaction);
 
 router.put("/reject/:id", authMiddleware, rejectTransaction);
+
+router.get(
+  "/shopkeeper",
+  authMiddleware,
+  getShopkeeperTransactions
+);
+
 
 export default router;

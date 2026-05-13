@@ -4,6 +4,7 @@ const API = "http://localhost:5000/api/transactions";
 
 
 
+
 // CREATE TRANSACTION
 export const createTransaction = async (data) => {
 
@@ -74,6 +75,26 @@ export const rejectRequest = async (id) => {
   const response = await axios.put(
     `${API}/reject/${id}`,
     {},
+    {
+      headers: {
+        Authorization: token,
+      },
+    }
+  );
+
+  return response.data;
+};
+
+
+
+
+// SHOPKEEPER TRANSACTIONS
+export const getShopkeeperTransactions = async () => {
+
+  const token = localStorage.getItem("token");
+
+  const response = await axios.get(
+    `${API}/shopkeeper`,
     {
       headers: {
         Authorization: token,

@@ -15,7 +15,7 @@ function CustomerDashboard() {
   const [requests, setRequests] = useState([]);
 
 
-  // LOAD REQUESTS
+  // FETCH REQUESTS
   const fetchRequests = async () => {
 
     try {
@@ -34,16 +34,18 @@ function CustomerDashboard() {
 
   useEffect(() => {
 
-    // REGISTER SOCKET USER
+    // REGISTER USER
     socket.emit("registerUser", user._id);
 
 
-    // FETCH INITIAL REQUESTS
+    // INITIAL FETCH
     fetchRequests();
 
 
     // REALTIME LISTENER
     socket.on("new_udhar_request", (data) => {
+
+      console.log(data);
 
       alert(`New Request ₹${data.transaction.amount}`);
 
@@ -57,6 +59,7 @@ function CustomerDashboard() {
     };
 
   }, []);
+
 
 
 
@@ -80,6 +83,7 @@ function CustomerDashboard() {
 
 
 
+
   // REJECT
   const handleReject = async (id) => {
 
@@ -97,6 +101,7 @@ function CustomerDashboard() {
 
     }
   };
+
 
 
   return (
