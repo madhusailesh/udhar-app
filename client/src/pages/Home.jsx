@@ -120,7 +120,7 @@ function Home() {
           <div className="relative w-full rounded-[32px] border border-gray-200 bg-white p-6 shadow-2xl backdrop-blur-xl dark:border-gray-800 dark:bg-white/5 sm:p-8">
             <div className="mb-8 flex items-center justify-between">
               <div>
-                <h2 className="text-xl font-bold sm:text-2xl">Sharma Store</h2>
+                <h2 className="text-xl font-bold sm:text-2xl">Kalinga Vihar Store</h2>
                 <p className="text-sm text-gray-500 dark:text-gray-400">Live Ledger</p>
               </div>
               <div className="rounded-full bg-green-100 px-3 py-1.5 text-xs font-bold text-green-700 dark:bg-green-500/20 dark:text-green-400 sm:px-4 sm:py-2 sm:text-sm">
@@ -133,7 +133,7 @@ function Home() {
               <div className="rounded-2xl bg-gray-50 p-4 dark:bg-gray-900/80 sm:p-5">
                 <div className="mb-3 flex items-center justify-between">
                   <div>
-                    <h3 className="font-semibold">Rahul Kumar</h3>
+                    <h3 className="font-semibold">Madhu Sailesh</h3>
                     <p className="text-xs text-gray-500 dark:text-gray-400 sm:text-sm">Pending Balance</p>
                   </div>
                   <span className="text-lg font-bold text-red-500 dark:text-red-400 sm:text-xl">₹1,250</span>
@@ -146,7 +146,7 @@ function Home() {
               <div className="rounded-2xl bg-gray-50 p-4 dark:bg-gray-900/80 sm:p-5">
                 <div className="mb-3 flex items-center justify-between">
                   <div>
-                    <h3 className="font-semibold">Priya Sharma</h3>
+                    <h3 className="font-semibold">Laxman Chandra</h3>
                     <p className="text-xs text-gray-500 dark:text-gray-400 sm:text-sm">Pending Balance</p>
                   </div>
                   <span className="text-lg font-bold text-yellow-600 dark:text-yellow-400 sm:text-xl">₹850</span>
