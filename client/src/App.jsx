@@ -1,8 +1,4 @@
-import {
-  BrowserRouter,
-  Routes,
-  Route,
-} from "react-router-dom";
+import { BrowserRouter, Routes, Route } from "react-router-dom";
 
 import Home from "./pages/Home";
 
@@ -16,72 +12,64 @@ import CustomerDashboard from "./pages/CustomerDashboard";
 
 import ProtectedRoute from "./routes/ProtectedRoute";
 
-function App() {
+import PublicRoute from "./routes/PublicRoute";
 
+function App() {
   return (
     <BrowserRouter>
-
       <Routes>
-
         {/* HOME */}
         <Route
           path="/"
-          element={<Home />}
+          element={
+            <PublicRoute>
+              <Home />
+            </PublicRoute>
+          }
         />
-
-
-
 
         {/* LOGIN */}
         <Route
           path="/login"
-          element={<Login />}
+          element={
+            <PublicRoute>
+              <Login />
+            </PublicRoute>
+          }
         />
-
-
-
 
         {/* SIGNUP */}
         <Route
           path="/signup"
-          element={<Signup />}
+          element={
+            <PublicRoute>
+              <Signup />
+            </PublicRoute>
+          }
         />
-
-
-
 
         {/* SHOPKEEPER */}
         <Route
           path="/shopkeeper"
           element={
             <ProtectedRoute>
-
               <ShopkeeperDashboard />
-
             </ProtectedRoute>
           }
         />
-
-
-
 
         {/* CUSTOMER */}
         <Route
           path="/customer"
           element={
             <ProtectedRoute>
-
               <CustomerDashboard />
-
             </ProtectedRoute>
           }
         />
-
       </Routes>
-
     </BrowserRouter>
   );
-
 }
 
 export default App;
